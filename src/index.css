@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", "Segoe UI", "Roboto", sans-serif;
+  --font-display: "Montserrat", -apple-system, BlinkMacSystemFont, "San Francisco Display", "Helvetica Neue", "Segoe UI", "Roboto", sans-serif;
+  
+  --color-brand-red: #c8102e;
+  --color-brand-dark: #111111;
+  --color-brand-gray: #18181b;
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  h1 {
+    @apply font-display font-black tracking-tighter text-white leading-[0.85] uppercase;
+    font-size: clamp(3rem, 10vw, 8rem);
+  }
+  h2 {
+    @apply font-display font-black tracking-tight text-white leading-none uppercase;
+    font-size: clamp(2rem, 6vw, 4rem);
+  }
+  h3 {
+    @apply font-display font-bold tracking-tight text-white leading-tight;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  h4 {
+    @apply font-display font-bold text-white uppercase tracking-wider;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+  }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+  
+  .italic-glow {
+    text-shadow: 0 0 30px rgba(200, 16, 46, 0.3);
+  }
+
+  .micro-label {
+    @apply text-[10px] font-black uppercase tracking-[0.2em] text-slate-500;
+  }
+
+  .glass-pill {
+    @apply bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[10px] font-bold text-slate-400 uppercase tracking-wider transition-all hover:bg-white/10 hover:text-white hover:border-white/20;
+  }
+}
+
+@layer base {
+  body {
+    @apply text-slate-800 bg-brand-dark antialiased;
+  }
+}
