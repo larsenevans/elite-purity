@@ -113,113 +113,116 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-brand-red selection:text-white">
-      {/* 1. ANNOUNCEMENT RAIL */}
-      <div className="bg-brand-red py-2 overflow-hidden border-b border-white/10">
-        <div className="flex whitespace-nowrap animate-marquee">
-          {[...Array(10)].map((_, i) => (
-            <span key={i} className="text-[10px] font-black uppercase tracking-[0.2em] text-white px-8">
-              USA DOMESTIC SHIPPING • LAB TESTED PURITY • DISCREET PACKAGING • 24/7 SUPPORT
-            </span>
-          ))}
+      {/* 1. STICKY TOP UNIT */}
+      <div className="sticky top-0 z-50 shadow-2xl">
+        {/* ANNOUNCEMENT RAIL */}
+        <div className="bg-brand-red py-2 overflow-hidden border-b border-white/10 relative z-60">
+          <div className="flex whitespace-nowrap animate-marquee">
+            {[...Array(10)].map((_, i) => (
+              <span key={i} className="text-[10px] font-black uppercase tracking-[0.2em] text-white px-8">
+                USA DOMESTIC SHIPPING • LAB TESTED PURITY • DISCREET PACKAGING • 24/7 SUPPORT
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* 2. TOP UTILITY & NAVIGATION */}
-      <nav className="bg-brand-dark/80 backdrop-blur-xl sticky top-0 z-50 border-b border-white/5">
-        <div className="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-12">
-            {/* Logo */}
-            <div className="flex items-center space-x-3 group cursor-pointer">
-              <div className="w-9 h-9 bg-brand-red flex items-center justify-center font-extrabold text-white text-lg">P</div>
-              <div className="flex flex-col">
-                <span className="text-xl font-display font-light text-white tracking-[0.1em] leading-none uppercase">Purity</span>
-                <span className="text-[8px] font-black text-brand-red tracking-[0.4em] leading-none mt-1 uppercase">Pharma</span>
+        {/* 2. TOP UTILITY & NAVIGATION */}
+        <nav className="bg-brand-dark/80 backdrop-blur-xl border-b border-white/5">
+          <div className="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div className="flex items-center space-x-12">
+              {/* Logo */}
+              <div className="flex items-center space-x-3 group cursor-pointer">
+                <div className="w-9 h-9 bg-brand-red flex items-center justify-center font-extrabold text-white text-lg">P</div>
+                <div className="flex flex-col">
+                  <span className="text-xl font-display font-light text-white tracking-[0.1em] leading-none uppercase">Purity</span>
+                  <span className="text-[8px] font-black text-brand-red tracking-[0.4em] leading-none mt-1 uppercase">Pharma</span>
+                </div>
+              </div>
+
+              {/* Desktop Nav */}
+              <div className="hidden lg:flex items-center space-x-8">
+                {['Catalog', 'Bestsellers', 'USA Domestic', 'FAQ', 'Contact'].map((item) => (
+                  <motion.a 
+                    key={item} 
+                    href="#" 
+                    className="micro-label hover:text-white transition-colors"
+                    whileHover={{ y: -2, scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item}
+                  </motion.a>
+                ))}
+              </div>
+
+              {/* Search Bar */}
+              <div className="hidden xl:flex items-center relative w-64">
+                <input 
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                  placeholder="Search compounds..."
+                  className="w-full bg-white/5 border border-white/10 rounded-full py-1.5 px-4 pl-10 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-red focus:bg-white/10 transition-all"
+                />
+                <Search size={14} className="absolute left-4 text-slate-500" />
+                
+                <AnimatePresence>
+                  {suggestions.length > 0 && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full left-0 right-0 mt-4 bg-brand-dark border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[100] backdrop-blur-xl"
+                    >
+                      {suggestions.map((p) => (
+                        <div key={p.id} className="p-3 hover:bg-white/5 cursor-pointer flex items-center space-x-3 transition-colors border-b border-white/5 last:border-0">
+                          <img src={p.image} className="w-10 h-10 object-cover rounded-lg" alt="" />
+                          <div className="flex flex-col">
+                            <span className="text-[10px] text-white font-bold leading-tight">{p.name}</span>
+                            <span className="text-[10px] text-brand-red font-black mt-1">${p.price.toFixed(2)}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center space-x-8">
-              {['Catalog', 'Bestsellers', 'USA Domestic', 'FAQ', 'Contact'].map((item) => (
-                <motion.a 
-                  key={item} 
-                  href="#" 
-                  className="micro-label hover:text-white transition-colors"
-                  whileHover={{ y: -2, scale: 1.05 }}
+            <div className="flex items-center space-x-6">
+              <div className="hidden sm:flex items-center space-x-4">
+                <motion.div 
+                  className="glass-pill cursor-pointer"
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-
-            {/* Search Bar */}
-            <div className="hidden xl:flex items-center relative w-64">
-              <input 
-                type="text"
-                value={searchQuery}
-                onChange={handleSearch}
-                placeholder="Search compounds..."
-                className="w-full bg-white/5 border border-white/10 rounded-full py-1.5 px-4 pl-10 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-red focus:bg-white/10 transition-all"
-              />
-              <Search size={14} className="absolute left-4 text-slate-500" />
-              
-              <AnimatePresence>
-                {suggestions.length > 0 && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-0 right-0 mt-4 bg-brand-dark border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[100] backdrop-blur-xl"
-                  >
-                    {suggestions.map((p) => (
-                      <div key={p.id} className="p-3 hover:bg-white/5 cursor-pointer flex items-center space-x-3 transition-colors border-b border-white/5 last:border-0">
-                        <img src={p.image} className="w-10 h-10 object-cover rounded-lg" alt="" />
-                        <div className="flex flex-col">
-                          <span className="text-[10px] text-white font-bold leading-tight">{p.name}</span>
-                          <span className="text-[10px] text-brand-red font-black mt-1">${p.price.toFixed(2)}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-6">
-            <div className="hidden sm:flex items-center space-x-4">
-              <motion.div 
-                className="glass-pill cursor-pointer"
-                whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                whileTap={{ scale: 0.95 }}
-              >
-                $ USD <ChevronDown size={10} className="inline ml-1 opacity-50" />
-              </motion.div>
-              <motion.div 
-                className="glass-pill cursor-pointer flex items-center space-x-2"
-                whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <User size={12} />
-                <span>Account</span>
-              </motion.div>
-            </div>
-            
-            <motion.div 
-              className="relative group cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all">
-                <ShoppingCart size={20} className="text-white" />
-                <span className="absolute -top-1 -right-1 bg-brand-red text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-brand-dark">
-                  {cartCount}
-                </span>
+                  $ USD <ChevronDown size={10} className="inline ml-1 opacity-50" />
+                </motion.div>
+                <motion.div 
+                  className="glass-pill cursor-pointer flex items-center space-x-2"
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <User size={12} />
+                  <span>Account</span>
+                </motion.div>
               </div>
-            </motion.div>
+              
+              <motion.div 
+                className="relative group cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all">
+                  <ShoppingCart size={20} className="text-white" />
+                  <span className="absolute -top-1 -right-1 bg-brand-red text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-brand-dark">
+                    {cartCount}
+                  </span>
+                </div>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       <main className="flex-grow">
         {/* 3. HERO SECTION - EDITORIAL STYLE */}
