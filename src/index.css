@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", "Segoe UI", "Roboto", sans-serif;
-  --font-display: "Montserrat", -apple-system, BlinkMacSystemFont, "San Francisco Display", "Helvetica Neue", "Segoe UI", "Roboto", sans-serif;
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   
   --color-brand-red: #c8102e;
   --color-brand-dark: #111111;
