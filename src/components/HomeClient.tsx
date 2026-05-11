@@ -104,13 +104,17 @@ export default function HomeClient({ initialProducts, hideHero = false, hideStat
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent z-10" />
             <Image 
-              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2000" 
+              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2000" 
               fill
               priority
               sizes="100vw"
               className="object-cover opacity-40"
               alt="Hero Background"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                // Fallback to gradient if image fails
+                (e.target as HTMLElement).style.display = 'none';
+              }}
             />
           </div>
 
@@ -299,7 +303,7 @@ export default function HomeClient({ initialProducts, hideHero = false, hideStat
               transition={{ duration: 0.6 }}
             >
               <Image 
-                src="https://images.unsplash.com/photo-1579165466541-71aa2167de7d?auto=format&fit=crop&q=80&w=1200" 
+                src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=1200" 
                 height={384}
                 width={800}
                 className="w-full h-96 object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000"

@@ -33,6 +33,15 @@ export const metadata: Metadata = {
   description: "Purity Pharma ponúka najkvalitnejšie farmaceutiká, doplnky a medicínske produkty s doručením po celom svete.",
   keywords: ["farmaceutiká", "doplnky", "Purity Pharma", "zdravie", "fitness"],
   authors: [{ name: "Purity Pharma Team" }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://puritypharma.com'),
+  icons: {
+    icon: [
+      {
+        url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23c8102e' width='100' height='100'/><text x='50' y='60' font-size='70' font-weight='bold' text-anchor='middle' fill='white'>P</text></svg>",
+        type: "image/svg+xml",
+      }
+    ],
+  },
   openGraph: {
     type: "website",
     locale: "sk_SK",

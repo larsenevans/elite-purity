@@ -19,29 +19,41 @@ async function fetchAPI<T>(query: string, { variables, tags }: { variables?: Rec
     return { data: {} } as any;
   }
 
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    next: { 
-      revalidate: 3600, // Záložná revalidácia každú hodinu
-      tags: tags,       // Tagy pre on-demand revalidáciu
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  });
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: { 
+        revalidate: 3600, // Záložná revalidácia každú hodinu
+        tags: tags,       // Tagy pre on-demand revalidáciu
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
 
-  const json: GraphQLResponse<T> = await res.json();
+    if (!res.ok) {
+      console.error(`WordPress API returned status ${res.status}`);
+      return { data: {} } as any;
+    }
 
-  if (json.errors) {
-    console.error(json.errors);
-    throw new Error('Chyba pri získavaní dát z GraphQL API');
+    const json: GraphQLResponse<T> = await res.json();
+
+    if (json.errors) {
+      console.error('GraphQL errors:', json.errors);
+      // Do not throw - return empty data to allow graceful degradation
+      return { data: {} } as any;
+    }
+
+    return json.data as T;
+  } catch (error) {
+    console.error('Error fetching from WordPress API:', error);
+    // Graceful fallback - return empty data structure
+    return { data: {} } as any;
   }
-
-  return json.data as T;
 }
 
 export interface WPProduct {

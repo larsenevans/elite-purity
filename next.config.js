@@ -9,19 +9,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'picsum.photos',
+        hostname: '**.wp.com',
       },
       {
         protocol: 'https',
-        hostname: '*.wp.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.googleusercontent.com',
-      },
-      {
-         protocol: 'https',
-         hostname: 'tvoj-web.sk',
+        hostname: 'tvoj-web.sk',
       }
     ],
   },

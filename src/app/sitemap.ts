@@ -4,16 +4,15 @@
  */
 
 import { MetadataRoute } from 'next';
-import { getAllProductSlugs, getAllPostSlugs, getAllCategorySlugs } from '@/lib/wp-api';
+import { getAllProductSlugs, getAllCategorySlugs } from '@/lib/wp-api';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Odporúča sa nastaviť NEXT_PUBLIC_SITE_URL v .env
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://puritypharma.com';
 
   // Paralelné získavanie všetkých slugov
-  const [products, posts, categories] = await Promise.all([
+  const [products, categories] = await Promise.all([
     getAllProductSlugs(),
-    getAllPostSlugs(),
     getAllCategorySlugs(),
   ]);
 
@@ -22,13 +21,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
-  }));
-
-  const blogUrls = posts.map((p) => ({
-    url: `${baseUrl}/blog/${p.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
   }));
 
   const categoryUrls = categories.map((c) => ({
@@ -46,7 +38,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     ...productUrls,
-    ...blogUrls,
     ...categoryUrls,
   ];
 }
